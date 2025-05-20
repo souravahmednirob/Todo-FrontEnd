@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// This will use your environment variable in production, or localhost in development
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
 
 const api = axios.create({
@@ -28,7 +29,7 @@ api.interceptors.response.use(
         return response;
     },
     async (error) => {
-        // Safely handle the case when error.response is undefined
+        // Handle 401 Unauthorized errors by redirecting to login
         if (error.response && error.response.status === 401) {
             localStorage.removeItem('token');
             window.location.href = '/login';
